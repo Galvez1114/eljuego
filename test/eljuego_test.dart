@@ -1,6 +1,6 @@
-import 'package:eljuego/eljuego.dart';
+
 import 'package:eljuego/modelos.dart';
-import 'package:test/test.dart';
+
 
 void main() {
   Mazo mazo = Mazo();
