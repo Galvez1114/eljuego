@@ -8,6 +8,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  bloc: ^8.1.2
+  bloc_test: ^9.1.4
+  equatable: ^2.0.5
+  fast_immutable_collections: ^9.1.6
   fpdart: ^1.1.0
   # path: ^1.8.0
 

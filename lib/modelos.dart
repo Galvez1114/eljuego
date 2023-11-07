@@ -1,5 +1,7 @@
 
 
+import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
 
 class Carta{
@@ -17,7 +19,6 @@ class Mazo{
   void barajar(){
   _cartas.shuffle();
   }
-
 
 
 
@@ -87,4 +88,21 @@ class DescarteDescendente extends Descarte{
     }
     return false;
   }
+}
+
+class Jugador with EquatableMixin {
+  final String nombre;
+  final IList<Carta> mano;
+
+  Jugador({required this.nombre, required this.mano});
+@override
+  String toString() {
+    
+    return 'Soy jugador $nombre con mano $mano';
+  }
+  
+  @override
+ 
+  List<Object?> get props => [nombre , mano];
+
 }
