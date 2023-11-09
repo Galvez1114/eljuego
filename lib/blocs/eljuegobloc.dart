@@ -19,10 +19,10 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
         add(PartidaIniciada());
       }
     });
-    on<PartidaIniciada>((event,emit)){
-      
+    on<PartidaIniciada>((event,emit){
+      int limiteDeCartasEnMano = calcularLimiteMaximoCarta(numeroJugadores: _jugadores.length);
       return null;
-    }
+    });
   }
   
   calcularLimiteMaximoCarta({required int numeroJugadores}) {
