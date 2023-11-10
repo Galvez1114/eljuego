@@ -1,4 +1,6 @@
+import 'package:eljuego/blocs/eljuegobloc.dart';
 import 'package:eljuego/modelos.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -59,6 +61,15 @@ test('si el descarte descendente acepta una de exactamente mayor en 10', () {
   bool acepto = descarte.recibeCarte(Carta(valor: 20));
   expect(acepto, true);
 });
+  });
+
+  group('Jugador', () {
+    test('Probar que la mano inicial es de la cantidad limite mximo', () {
+      Jugador j = Jugador(nombre: 'Juan', mano: IList([]));
+      Mazo mazo = Mazo();
+      j.robar(mazo: mazo, limiteMaximo: calcularLimiteMaximoCarta(numeroJugadores: 1));
+      expect(j.mano.length, equals(8));
+    });
   });
 
 }

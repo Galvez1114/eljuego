@@ -1,10 +1,8 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fpdart/fpdart.dart';
 
-class Carta{
+class Carta {
   final int valor;
 
   Carta({required this.valor});
@@ -12,46 +10,43 @@ class Carta{
   String toString() => 'C-$valor';
 }
 
-class Mazo{
-  List<Carta> _cartas = List<Carta>.generate(98, (index) => Carta(valor: index + 2));
+class Mazo {
+  List<Carta> _cartas =
+      List<Carta>.generate(98, (index) => Carta(valor: index + 2));
   int get cantidadCartasRestantes => _cartas.length;
-  
-  void barajar(){
-  _cartas.shuffle();
+
+  void barajar() {
+    _cartas.shuffle();
   }
 
-
-
-  bool estaVacio(){
+  bool estaVacio() {
     return _cartas.isEmpty;
   }
 
-  Either <Problema,Carta> robar(){
-    if(estaVacio()) return left(MasoVacio());
+  Either<Problema, Carta> robar() {
+    if (estaVacio()) return left(MasoVacio());
     Carta carta = _cartas.first;
     _cartas.removeAt(0);
     return right(carta);
   }
-  
+
   @override
   String toString() => '$_cartas';
 }
 
-sealed class Problema{
+sealed class Problema {}
 
-}
+class MasoVacio extends Problema {}
 
-class MasoVacio extends Problema{}
-
-sealed class Descarte{
+sealed class Descarte {
   final List<Carta> _descartadas = [];
   bool recibeCarte(Carta carta);
 }
 
-class descarteAscendente extends Descarte{
+class descarteAscendente extends Descarte {
   @override
   bool recibeCarte(Carta carta) {
-    if(_descartadas.isEmpty){
+    if (_descartadas.isEmpty) {
       _descartadas.add(carta);
       return true;
     }
@@ -61,7 +56,7 @@ class descarteAscendente extends Descarte{
       return true;
     }
 
-    if(carta.valor == (c.valor - 10)){
+    if (carta.valor == (c.valor - 10)) {
       _descartadas.add(carta);
       return true;
     }
@@ -69,10 +64,10 @@ class descarteAscendente extends Descarte{
   }
 }
 
-class DescarteDescendente extends Descarte{
-   @override
+class DescarteDescendente extends Descarte {
+  @override
   bool recibeCarte(Carta carta) {
-    if(_descartadas.isEmpty){
+    if (_descartadas.isEmpty) {
       _descartadas.add(carta);
       return true;
     }
@@ -82,7 +77,7 @@ class DescarteDescendente extends Descarte{
       return true;
     }
 
-    if(carta.valor == (c.valor + 10)){
+    if (carta.valor == (c.valor + 10)) {
       _descartadas.add(carta);
       return true;
     }
@@ -92,17 +87,27 @@ class DescarteDescendente extends Descarte{
 
 class Jugador with EquatableMixin {
   final String nombre;
-  final IList<Carta> mano;
+  IList<Carta> mano;
 
   Jugador({required this.nombre, required this.mano});
-@override
+  @override
   String toString() {
-    
     return 'Soy jugador $nombre con mano $mano';
   }
-  
-  @override
- 
-  List<Object?> get props => [nombre , mano];
 
+  @override
+  List<Object?> get props => [nombre, mano];
+
+  void robar({required Mazo mazo, required int limiteMaximo}) {
+    if (mazo.estaVacio()) {
+      return;
+    }
+    int cuantas = limiteMaximo - mano.length;
+    for (int i = 0; i < cuantas; i++) {
+      var posibleCarta = mazo.robar();
+      posibleCarta.match((l) => null, (r) {
+        mano = mano.add(r);
+      });
+    }
+  }
 }

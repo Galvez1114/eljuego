@@ -9,10 +9,13 @@ const limiteMaximoDeJugadores = 5;
 
 class ElJuegoBloc extends Bloc<Evento, Estado> {
  IList<Jugador> _jugadores = IList();
+ Mazo mazo = Mazo();
  String mensaje = '';
   
   ElJuegoBloc() : super(EstadorInicial()) {
     on<JugadorAgregado>((event, emit) {
+      mazo.barajar();
+
      _jugadores = _jugadores.add(event.jugador);
       emit(Lobby(jugadores: _jugadores, mensaje: ''));
       if(_jugadores.length == limiteMaximoDeJugadores){
@@ -21,11 +24,18 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
     });
     on<PartidaIniciada>((event,emit){
       int limiteDeCartasEnMano = calcularLimiteMaximoCarta(numeroJugadores: _jugadores.length);
+      for (var j in _jugadores) {
+        j.robar(mazo: mazo, limiteMaximo: calcularLimiteMaximoCarta(numeroJugadores: _jugadores.length));
+      }
       return null;
     });
+    
   }
   
-  calcularLimiteMaximoCarta({required int numeroJugadores}) {
+  
+}
+
+calcularLimiteMaximoCarta({required int numeroJugadores}) {
     Map<int,int> limiteDeCartasEnMano = {
       1:8,
       2:7,
@@ -38,4 +48,3 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
     }
     throw Exception('número de jugadores incorrecto');   
   }
-}
