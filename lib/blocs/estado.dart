@@ -6,6 +6,20 @@ sealed class Estado {}
 
 class EstadorInicial extends Estado {}
 
+class turno extends Estado with EquatableMixin{
+  final Jugador jugador;
+  final descarteAscendente descarteAscendente1;
+  final descarteAscendente descarteAscendente2;
+  final DescarteDescendente descarteDescendente1;
+  final DescarteDescendente descarteDescendente2;
+
+  turno({required this.jugador, required this.descarteAscendente1, required this.descarteAscendente2, required this.descarteDescendente1, required this.descarteDescendente2});
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [jugador,descarteAscendente1,descarteAscendente2,descarteDescendente1,descarteDescendente2];
+}
+
 
 class Lobby extends Estado with EquatableMixin {
   final IList<Jugador> jugadores;
