@@ -43,13 +43,9 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
           descarteDescendente2: descarteDescendente2,
           jugador: _colaCircular.quienVa));
     });
-    on<TurnoJugado>((event, emit) {
-      
-    });
-
-    on<movimientosBloqueados>((event, emit) {
-      emit(partidaPerdida(numeroDeCartas: calcularNumeroCartasFinales(_mazo, _jugadores)));
-    });
+  on<TurnoJugado>((event, emit) {
+    
+  });
   }
 }
 
