@@ -10,9 +10,9 @@ const limiteMaximoDeJugadores = 5;
 
 class ElJuegoBloc extends Bloc<Evento, Estado> {
   IList<Jugador> _jugadores = IList();
-  Mazo mazo = Mazo();
+  Mazo _mazo = Mazo();
   String mensaje = '';
-  late final ColaCircular<Jugador> colaCircular;
+  late final ColaCircular<Jugador> _colaCircular;
   descarteAscendente descarteAscendente1 = descarteAscendente();
   descarteAscendente descarteAscendente2 = descarteAscendente();
   DescarteDescendente descarteDescendente1 = DescarteDescendente();
@@ -20,7 +20,7 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
 
   ElJuegoBloc() : super(EstadorInicial()) {
     on<JugadorAgregado>((event, emit) {
-      mazo.barajar();
+      _mazo.barajar();
 
       _jugadores = _jugadores.add(event.jugador);
       emit(Lobby(jugadores: _jugadores, mensaje: ''));
@@ -29,18 +29,24 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
       }
     });
     on<PartidaIniciada>((event, emit) {
-      colaCircular = ColaCircular(_jugadores);
+      _colaCircular = ColaCircular(_jugadores);
       for (var j in _jugadores) {
         j.robar(
-            mazo: mazo,
+            mazo: _mazo,
             limiteMaximo:
                 calcularLimiteMaximoCarta(numeroJugadores: _jugadores.length));
       }
-      emit(turno(descarteAscendente1: descarteAscendente1,descarteAscendente2: descarteAscendente2,descarteDescendente1: descarteDescendente1,descarteDescendente2: descarteDescendente2,jugador: colaCircular.quienVa));
+      emit(turno(
+          descarteAscendente1: descarteAscendente1,
+          descarteAscendente2: descarteAscendente2,
+          descarteDescendente1: descarteDescendente1,
+          descarteDescendente2: descarteDescendente2,
+          jugador: _colaCircular.quienVa));
     });
-  on<TurnoJugado>((event, emit) {
-    
-  });
+    on<TurnoJugado>((event, emit) {});
+    on<movimientosBloqueados>((event, emit) {
+      emit(partidaPerdida(numeroDeCartas: calcularNumeroCartasFinales(_mazo, _jugadores)));
+    });
   }
 }
 
@@ -50,4 +56,13 @@ calcularLimiteMaximoCarta({required int numeroJugadores}) {
     return limiteDeCartasEnMano[numeroJugadores]!;
   }
   throw Exception('número de jugadores incorrecto');
+}
+
+int calcularNumeroCartasFinales(Mazo mazo, IList<Jugador> jugadores) {
+  int contador = 0;
+  for (var jugador in jugadores) {
+    contador =  contador + jugador.mano.length;
+  }
+  contador = contador + mazo.cantidadCartasRestantes;
+  return contador;
 }

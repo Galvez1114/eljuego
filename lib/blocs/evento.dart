@@ -6,6 +6,8 @@ sealed class Evento {}
 
 class PartidaIniciada extends Evento{}
 
+class movimientosBloqueados extends Evento{}
+
 class TurnoJugado extends Evento {
   final Jugador jugador;
   final IList<Carta> cartasJugadas;
