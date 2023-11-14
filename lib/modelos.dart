@@ -40,12 +40,12 @@ class MasoVacio extends Problema {}
 
 sealed class Descarte {
   final List<Carta> _descartadas = [];
-  bool recibeCarte(Carta carta);
+  bool recibeCarta(Carta carta);
 }
 
 class descarteAscendente extends Descarte {
   @override
-  bool recibeCarte(Carta carta) {
+  bool recibeCarta(Carta carta) {
     if (_descartadas.isEmpty) {
       _descartadas.add(carta);
       return true;
@@ -66,7 +66,7 @@ class descarteAscendente extends Descarte {
 
 class DescarteDescendente extends Descarte {
   @override
-  bool recibeCarte(Carta carta) {
+  bool recibeCarta(Carta carta) {
     if (_descartadas.isEmpty) {
       _descartadas.add(carta);
       return true;

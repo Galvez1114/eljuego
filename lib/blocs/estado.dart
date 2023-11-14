@@ -4,7 +4,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 sealed class Estado {}
 
-class EstadorInicial extends Estado {}
+class EstadoInicial extends Estado {}
 
 class turno extends Estado with EquatableMixin{
   final Jugador jugador;

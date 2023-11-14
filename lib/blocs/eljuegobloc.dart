@@ -18,7 +18,7 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
   DescarteDescendente descarteDescendente1 = DescarteDescendente();
   DescarteDescendente descarteDescendente2 = DescarteDescendente();
 
-  ElJuegoBloc() : super(EstadorInicial()) {
+  ElJuegoBloc() : super(EstadoInicial()) {
     on<JugadorAgregado>((event, emit) {
       _mazo.barajar();
 
