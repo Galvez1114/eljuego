@@ -20,6 +20,14 @@ class turno extends Estado with EquatableMixin{
   List<Object?> get props => [jugador,descarteAscendente1,descarteAscendente2,descarteDescendente1,descarteDescendente2];
 }
 
+class partidaPerdida extends Estado with EquatableMixin{
+  final int numeroDeCartas;
+
+  partidaPerdida({required this.numeroDeCartas});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [numeroDeCartas];
+}
 
 class Lobby extends Estado with EquatableMixin {
   final IList<Jugador> jugadores;
