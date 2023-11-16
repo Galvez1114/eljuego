@@ -4,10 +4,24 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 sealed class Evento {}
 
+
+
 class PartidaIniciada extends Evento{}
+
+class SinTurnos extends Evento{
+  final IList<Jugador> cola;
+
+  SinTurnos({required this.cola});
+}
 
 class movimientosBloqueados extends Evento{}
 
+class cartaJugada extends Evento{
+  final Carta carta;
+  final Descarte descarte;
+
+  cartaJugada({required this.carta, required this.descarte});
+}
 
 class turnoPasado extends Evento{}
 

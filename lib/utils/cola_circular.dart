@@ -38,4 +38,8 @@ class ColaCircular<T> {
     _lista.remove(elemento);
     return quienVa;
   }
+
+  bool colaVacia(){
+    return _lista.isEmpty;
+  }
 }

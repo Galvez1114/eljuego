@@ -6,6 +6,7 @@ sealed class Estado {}
 
 class EstadoInicial extends Estado {}
 
+
 class turno extends Estado with EquatableMixin{
   final Jugador jugador;
   final descarteAscendente descarteAscendente1;
@@ -25,10 +26,20 @@ class partidaPerdida extends Estado with EquatableMixin{
 
   partidaPerdida({required this.numeroDeCartas});
   @override
-  // TODO: implement props
   List<Object?> get props => [numeroDeCartas];
 }
 
+class partidaGanada extends Estado with EquatableMixin {
+  
+  @override
+  // TODO: implement props
+  String toString(){
+    return "partida ganada";
+  }
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
 class Lobby extends Estado with EquatableMixin {
   final IList<Jugador> jugadores;
   final String mensaje;
