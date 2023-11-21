@@ -11,27 +11,27 @@ class Carta {
 }
 
 class Mazo {
-  List<Carta> _cartas =
+  List<Carta> cartas =
       List<Carta>.generate(98, (index) => Carta(valor: index + 2));
-  int get cantidadCartasRestantes => _cartas.length;
+  int get cantidadCartasRestantes => cartas.length;
 
   void barajar() {
-    _cartas.shuffle();
+    cartas.shuffle();
   }
 
   bool estaVacio() {
-    return _cartas.isEmpty;
+    return cartas.isEmpty;
   }
 
   Either<Problema, Carta> robar() {
     if (estaVacio()) return left(MasoVacio());
-    Carta carta = _cartas.first;
-    _cartas.removeAt(0);
+    Carta carta = cartas.first;
+    cartas.removeAt(0);
     return right(carta);
   }
 
   @override
-  String toString() => '$_cartas';
+  String toString() => '$cartas';
 }
 
 sealed class Problema {}

@@ -12,7 +12,7 @@ const limiteMaximoDeJugadores = 5;
 class ElJuegoBloc extends Bloc<Evento, Estado> {
   IList<Jugador> _jugadores = IList();
   int _cartasJugadasPorActual = 0;
-  Mazo _mazo = Mazo();
+  final Mazo _mazo;
   String mensaje = '';
   late final ColaCircular<Jugador> _colaCircular;
   descarteAscendente descarteAscendente1 = descarteAscendente();
@@ -21,16 +21,16 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
   DescarteDescendente descarteDescendente2 = DescarteDescendente();
   late int _limiteMaximoDeCartas;
 
-  ElJuegoBloc() : super(EstadoInicial()) {
+  ElJuegoBloc(this._mazo) : super(EstadoInicial()) {
     on<JugadorAgregado>(onJugadorAgregado);
     on<turnoPasado>(onTurnoPasado);
     on<PartidaIniciada>(onPrtidaIniciada);
     on<cartaJugada>(onCartaJugada);
     on<TurnoJugado>(onTurnoJugado);
     on<movimientosBloqueados>(onMovimientosBlqueados);
-    on<SinTurnos>((event, emit){
-      if(_colaCircular.colaVacia()){
-        emit(partidaGanada());
+    on<SinTurnos>((event, emit) {
+      if (_colaCircular.colaVacia) {
+        emit(PartidaGanada());
       }
     });
   }
@@ -46,7 +46,7 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
     bool jugoBien(cartaJugada event) {
       return (event.descarte.recibeCarta(event.carta));
     }
-  
+
     if (jugoBien(event)) {
       var jugadorActual = _colaCircular.quienVa;
       _colaCircular.quienVa.mano =
@@ -55,6 +55,10 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
       if (jugadorActual.mano.isEmpty) {
         if (_mazo.estaVacio()) {
           _colaCircular.sacar(jugadorActual);
+          if (_colaCircular.colaVacia) {
+            emit(PartidaGanada());
+            return;
+          }
           jugadorActual = _colaCircular.siguiente();
         } else {
           int aRobar =
@@ -62,7 +66,7 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
           jugadorActual.robar(mazo: _mazo, limiteMaximo: aRobar);
         }
       }
-  
+
       emit(turno(
         jugador: jugadorActual,
         descarteAscendente1: descarteAscendente1,
@@ -119,7 +123,7 @@ class ElJuegoBloc extends Bloc<Evento, Estado> {
 
   void onJugadorAgregado(event, emit) {
     _mazo.barajar();
-  
+
     _jugadores = _jugadores.add(event.jugador);
     emit(Lobby(jugadores: _jugadores, mensaje: ''));
     if (_jugadores.length == limiteMaximoDeJugadores) {

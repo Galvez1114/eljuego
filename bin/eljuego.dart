@@ -1,8 +1,9 @@
+import 'package:eljuego/mazitos.dart';
 import 'package:eljuego/modelos.dart';
 
 
 void main(List<String> arguments) {
-  Mazo mazo = Mazo();
+  MazoMovimientoBloqueado mazo = MazoMovimientoBloqueado();
   mazo.barajar();
   
   var carta = mazo.robar();

@@ -29,17 +29,7 @@ class partidaPerdida extends Estado with EquatableMixin{
   List<Object?> get props => [numeroDeCartas];
 }
 
-class partidaGanada extends Estado with EquatableMixin {
-  
-  @override
-  // TODO: implement props
-  String toString(){
-    return "partida ganada";
-  }
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
+class PartidaGanada extends Estado{}
 class Lobby extends Estado with EquatableMixin {
   final IList<Jugador> jugadores;
   final String mensaje;

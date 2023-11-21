@@ -39,7 +39,7 @@ class ColaCircular<T> {
     return quienVa;
   }
 
-  bool colaVacia(){
+  bool get colaVacia {
     return _lista.isEmpty;
   }
 }

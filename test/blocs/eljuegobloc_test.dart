@@ -10,7 +10,7 @@ import 'package:eljuego/blocs/evento.dart';
 void main() {
   blocTest<ElJuegoBloc, Estado>(
     'Si no llega al limite, acepta jugadores',
-    build: () => ElJuegoBloc(),
+    build: () => ElJuegoBloc(Mazo()),
     act: (bloc) => bloc.add(JugadorAgregado(jugador: Jugador(nombre: 'Pepe', mano: IList()))),
     expect: () => [
       Lobby(jugadores: IList([Jugador(nombre: 'Pepe', mano: IList())]), mensaje: ''),
